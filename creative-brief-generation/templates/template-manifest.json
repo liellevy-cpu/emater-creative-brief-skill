@@ -1,0 +1,115 @@
+{
+  "contract_version": "1.0.0",
+  "brief_types": [
+    "new-task",
+    "policy-improvement",
+    "hook-lead-iteration",
+    "body-improvement",
+    "mixing-task"
+  ],
+  "tabs": [
+    "Editors",
+    "Production",
+    "Media Buyer"
+  ],
+  "shared_editor_labels": [
+    "Writer",
+    "Brief Type",
+    "Platform",
+    "Aspect Ratio",
+    "Parent Serial Number",
+    "Total Versions",
+    "Editor Direction"
+  ],
+  "colors": {
+    "editor_title": "0A111E",
+    "shared_label": "DDEDF9",
+    "value_region": "F7F9FF",
+    "editor_header": "336BAD",
+    "add": "93C47D",
+    "remove": "E06666",
+    "change": "F6B26B",
+    "production_section": "2E3DB8",
+    "production_table": "4A58D0",
+    "production_alternate": "F0F1FA",
+    "media_header": "1E3F70",
+    "gridline": "B7C3D0"
+  },
+  "forbidden_legacy_terms": [
+    "Base Ad ID",
+    "Parent Creative",
+    "Parent ID",
+    "Creator Instructions",
+    "Editing",
+    "Ad Copy"
+  ],
+  "master_filenames": {
+    "new-task": "creative-brief-new-task-master.xlsx",
+    "policy-improvement": "creative-brief-policy-improvement-master.xlsx",
+    "hook-lead-iteration": "creative-brief-hook-lead-iteration-master.xlsx",
+    "body-improvement": "creative-brief-body-improvement-master.xlsx",
+    "mixing-task": "creative-brief-mixing-task-master.xlsx"
+  },
+  "google_drive": {
+    "account": "automation@emater.io",
+    "folder_id": "1uU2LL3WMK3r2dRrRg-l1GNLnRInVVCAI",
+    "folder_url": "https://drive.google.com/drive/folders/1uU2LL3WMK3r2dRrRg-l1GNLnRInVVCAI",
+    "masters": {
+      "new-task": {
+        "spreadsheet_id": "1trC2O59NOpjTFF8-QXBOUdtF4wLGuL7HfRKQE2he04Y",
+        "title": "MASTER — Creative Brief — New Task",
+        "url": "https://docs.google.com/spreadsheets/d/1trC2O59NOpjTFF8-QXBOUdtF4wLGuL7HfRKQE2he04Y/edit?usp=drivesdk",
+        "tabs": [
+          "Editors",
+          "Production",
+          "Media Buyer"
+        ],
+        "readback_validated": true
+      },
+      "policy-improvement": {
+        "spreadsheet_id": "19OGZV6sXgYHzek9Q3n8nYHx5wsi685bPdm5TxGWVQfQ",
+        "title": "MASTER — Creative Brief — YouTube Policy Improvement",
+        "url": "https://docs.google.com/spreadsheets/d/19OGZV6sXgYHzek9Q3n8nYHx5wsi685bPdm5TxGWVQfQ/edit?usp=drivesdk",
+        "tabs": [
+          "Editors",
+          "Production",
+          "Media Buyer"
+        ],
+        "readback_validated": true
+      },
+      "hook-lead-iteration": {
+        "spreadsheet_id": "1xBhDpxwidjliYZ2ADGrfWWuhfhLs3wN-XW7lVVy175g",
+        "title": "MASTER — Creative Brief — Hookstack, Hook Swap & Lead Swap",
+        "url": "https://docs.google.com/spreadsheets/d/1xBhDpxwidjliYZ2ADGrfWWuhfhLs3wN-XW7lVVy175g/edit?usp=drivesdk",
+        "tabs": [
+          "Editors",
+          "Production",
+          "Media Buyer"
+        ],
+        "readback_validated": true
+      },
+      "body-improvement": {
+        "spreadsheet_id": "1vD9gRat6uioI4t51sIypnPbC1Dzk-qGr755PFeUv8gk",
+        "title": "MASTER — Creative Brief — Body Improvement",
+        "url": "https://docs.google.com/spreadsheets/d/1vD9gRat6uioI4t51sIypnPbC1Dzk-qGr755PFeUv8gk/edit?usp=drivesdk",
+        "tabs": [
+          "Editors",
+          "Production",
+          "Media Buyer"
+        ],
+        "readback_validated": true
+      },
+      "mixing-task": {
+        "spreadsheet_id": "1Z2Y_XIfKXG7VJu0K5cRgaDjOvvlflSzsR4LipD0RsrM",
+        "title": "MASTER — Creative Brief — Mixing Task",
+        "url": "https://docs.google.com/spreadsheets/d/1Z2Y_XIfKXG7VJu0K5cRgaDjOvvlflSzsR4LipD0RsrM/edit?usp=drivesdk",
+        "tabs": [
+          "Editors",
+          "Production",
+          "Media Buyer"
+        ],
+        "readback_validated": true
+      }
+    }
+  }
+}
