@@ -164,15 +164,20 @@ def build(serial,cfg):
 # --- Review - Editing rename mirror (live native Code step of workflow 18434960853) ---------------
 # build()/validate() above stay STRICT for task opening (including Cole's human Format confirmation).
 # review_name() mirrors the saved native code byte-for-byte in behaviour; parity is enforced by
-# coolina-task-creator/tests/test_review_name_tbd.py against tests/evidence/core-labels/native_core.txt
-# (2026-10-23 core labels; tags/native_tags.txt is the previous live code, kept as history).
+# coolina-task-creator/tests/test_review_name_tbd.py + test_review_name_image.py against
+# tests/evidence/image-naming/native_image.txt (2026-10-30 images: Aspect Ratio in the Format slot,
+# v1 when an image has no Final Name yet). core-labels/native_core.txt is the previous live code.
 # Missing/invalid values become TBD in their own segment only; tags (if any) go at the very end.
 # Core Profile/Angle/Message TBDs are never listed in the Owner note (the labeler/Liel own them).
 REVIEW_KEYS = ('item_serial_number_1','item_final_name_1','item_asset_type_label_1','item_name_1',
                'item_parent_serial_number_1','item_funnel_label_1','item_swimlane_label_1',
                'item_iteration_type_labels_1','item_core_profile_labels_1',
                'item_core_angle_labels_1','item_core_message_labels_1','item_format_labels_1','item_owner_names_1','item_ai_agent_label_1',
-               'item_editor_designer_names_1','item_tags_labels_1')
+               'item_editor_designer_names_1','item_tags_labels_1','item_aspect_ratio_label_1')
+# Images (Liel 2026-10-30): Aspect Ratio status label -> name token in the Format slot (no Fmt prefix).
+# Blank, N/A or anything else -> TBD and 'Aspect Ratio' in the Owner note. Format is not required for images.
+ASPECT_RATIO_COLUMN = 'color_mkrxkpcp'
+ASPECT_RATIOS = {'4x5':'4x5','1x1':'1x1','9x16 (4x5 safe)':'9x16','16x9':'16x9','Mix':'Mix','Other':'Other'}
 
 def review_name(item):
     """Return {'name','missing','note','post_update'} for a Review - Editing rename."""
@@ -194,11 +199,15 @@ def review_name(item):
     if not re.fullmatch(r'CO[0-9]+',serial):
         raise ValueError('A valid Coolina creative serial is required')
     old_name=single('item_final_name_1')
-    found=re.match(r'^'+serial+r'_(v[1-9][0-9]*)_',old_name,re.I)
-    if not found:
-        raise ValueError('Output version is missing; Total Versions is not an output version')
     asset=single('item_asset_type_label_1')
-    if asset and asset!='Video':
+    found=re.match(r'^'+serial+r'_(v[1-9][0-9]*)_',old_name,re.I)
+    if found:
+        version=found.group(1).lower()
+    elif asset=='Image' and not old_name:
+        version='v1'  # image tasks open without a Final Name (Liel 2026-10-30)
+    else:
+        raise ValueError('Output version is missing; Total Versions is not an output version')
+    if asset and asset not in ('Video','Image'):
         raise ValueError('Non-video naming awaits an approved format mapping')
     title=compact(re.sub(r'^'+serial+r'\s*[—–-]\s*','',single('item_name_1')))
     if not title:
@@ -214,10 +223,15 @@ def review_name(item):
     iteration=seg('item_iteration_type_labels_1','Iteration Type')
     core=core_tokens(single('item_core_profile_labels_1'),single('item_core_angle_labels_1'),
                      single('item_core_message_labels_1'))  # never added to `missing`
-    fmt=single('item_format_labels_1')
-    if fmt in FORMATS:fmt='Fmt'+compact(fmt)
+    if asset=='Image':
+        fmt=ASPECT_RATIOS.get(single('item_aspect_ratio_label_1'),'')
+        if not fmt:
+            missing.append('Aspect Ratio');fmt='TBD'
     else:
-        missing.append('Format');fmt='FmtTBD'
+        fmt=single('item_format_labels_1')
+        if fmt in FORMATS:fmt='Fmt'+compact(fmt)
+        else:
+            missing.append('Format');fmt='FmtTBD'
     if not asset:
         missing.append('Asset Type');asset='TBD'
     owners=values('item_owner_names_1')
@@ -232,7 +246,7 @@ def review_name(item):
         missing.append('AI Agent (not a recognized agent, left out of the name)')
     editors=values('item_editor_designer_names_1')
     editor=compact(editors[0]) if len(editors)==1 and ',' not in editors[0] else ''
-    parts=[serial,found.group(1).lower(),title,parent,funnel,swimlane,iteration,*core,fmt,
+    parts=[serial,version,title,parent,funnel,swimlane,iteration,*core,fmt,
            compact(asset),'Own'+owner]
     if ai:parts.append(ai)
     parts.append('Edt'+(editor or 'TBD'))
