@@ -37,8 +37,25 @@ ITERATIONS = ('NewOffer', 'TMP', 'NetNew', 'Optimization', 'HookReplacement',
               'Body Improvement', 'Mixing Task')
 FUNNEL_LABELS = {'2NEW':'2NEW','BIS':'BIS','BACK IN STOCK':'BIS','BBQ':'BBQ',
                  'BEAST':'BEAST','MYSTERY BUNDLE':'Mystery Bundle','HOLIDAY':'Holiday',
-                 'NEW ARRIVALS':'New Arrivals','UNIQUE':'Unique'}
+                 'NEW ARRIVALS':'New Arrivals','UNIQUE':'Unique',
+                 # Added 2026-11-16 (Liel): live board labels, used by Cole for Liza's tasks.
+                 'GIFTING':'Gifting','EVOLVE':'EVOLVE'}
 AGENTS = ('Ivan', 'Isaac', 'Camilla', 'Sam', 'Gina', 'Cole')
+# Proven-hooks auto route (Liel 2026-11-16, Slack C0C8BSHAF4J/1794597975.617809): weekly AI hook
+# swaps/stacks open with Owner = Max Openclaw. That owner is accepted ONLY on tasks carrying the
+# ProvenHooks tag (opening: also the route marker set by Cole's publisher). Everywhere else the bot
+# account as Owner still blocks/turns into OwnTBD exactly as before.
+AUTO_OWNER_ROUTE = 'proven_hooks_auto'
+AUTO_OWNER_TAG = 'ProvenHooks'
+AUTO_OWNER_ID = 102108402
+AUTO_OWNER_NAME = 'Max Openclaw'
+
+def auto_owner_allowed(owner_token, tag_names):
+    """Max Openclaw is a valid Owner only on ProvenHooks-tagged tasks."""
+    # Same test as the native Review - Editing Code step: exact compacted tag name, comma-split.
+    raw = [] if tag_names is None else [tag_names] if isinstance(tag_names, str) else list(tag_names)
+    tokens = [compact(part) for item in raw if isinstance(item, str) for part in item.split(',')]
+    return str(owner_token).casefold() == 'maxopenclaw' and AUTO_OWNER_TAG in tokens
 # AI Agent label may carry a release. Template {Name}Agent{version}: 'Cole 2.0' -> 'ColeAgent2.0', 'Camilla' -> 'CamillaAgent' (Liel 2026-10-15).
 AGENT_LABEL_RE = re.compile(r'(' + '|'.join(AGENTS) + r')(?: ([0-9]+(?:\.[0-9]+)*))?')
 
@@ -107,7 +124,11 @@ def validate(cfg):
     if cfg['swimlane'] not in ('NEW','IMPROVE','EXPAND','REFRESH') or cfg['creative_funnel'].upper() not in FUNNEL_LABELS:
         raise ValueError('Invalid Funnel or Swimlane label')
     human = compact(cfg['requester_monday_name'])
-    if human.casefold() in ('maxopenclaw','max','automation','tbd'):
+    auto_owner = (cfg.get('_auto_owner_route') == AUTO_OWNER_ROUTE and human == compact(AUTO_OWNER_NAME)
+                  and str(cfg.get('owner_id') or '') == str(AUTO_OWNER_ID)
+                  and str(cfg.get('requester_monday_user_id') or '') == str(AUTO_OWNER_ID)
+                  and auto_owner_allowed(human, cfg.get('tags') if isinstance(cfg.get('tags'), (list, tuple)) else None))
+    if human.casefold() in ('maxopenclaw','max','automation','tbd') and not auto_owner:
         raise ValueError('Owner must be a resolved human, not a technical identity')
     requester = cfg.get('requester_monday_user_id')
     if not requester or int(requester) <= 0 or int(cfg.get('owner_id') or requester) != int(requester):
@@ -236,7 +257,7 @@ def review_name(item):
         missing.append('Asset Type');asset='TBD'
     owners=values('item_owner_names_1')
     owner=compact(owners[0]) if len(owners)==1 and ',' not in owners[0] else ''
-    if not owner or owner.lower() in ('maxopenclaw','tbd'):
+    if not owner or owner.lower()=='tbd' or (owner.lower()=='maxopenclaw' and not auto_owner_allowed(owner,values('item_tags_labels_1'))):
         missing.append('Owner');owner='TBD'
     ai=''
     agent=AGENT_LABEL_RE.fullmatch(single('item_ai_agent_label_1'))
