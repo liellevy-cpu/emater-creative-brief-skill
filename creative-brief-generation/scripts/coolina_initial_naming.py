@@ -29,7 +29,8 @@ RETIRED_AVATAR_COLUMN = 'dropdown_mm14xwvn'
 RETIRED_ANGLE_COLUMN = 'dropdown_mm14etc4'
 RETIRED_COLUMNS = (RETIRED_AVATAR_COLUMN, RETIRED_ANGLE_COLUMN)
 FORMATS = ('AI Voiceover', 'Face-to-camera', 'POV — Warehouse/Employee',
-           'POV — Store', 'POV — Customer/Home', 'Skit/Conversation', 'Song/Music-led')
+           'POV — Store', 'POV — Customer/Home', 'Skit/Conversation', 'Song/Music-led',
+           'Music + text overlay')  # Liel, 2026-11-23
 ITERATIONS = ('NewOffer', 'TMP', 'NetNew', 'Optimization', 'HookReplacement',
               'New Size / Placement', 'Hook Stack', 'Lead Swap', 'Body Swap',
               'Format Swap', 'Media Scale', 'Angle Swap', 'Knife swap',
