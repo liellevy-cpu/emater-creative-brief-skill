@@ -1,0 +1,39 @@
+{
+  "brief": {
+    "task_title": "BBQ Enthusiast Test — Impress His Guests",
+    "writer": "Lia",
+    "brief_type": "new-task",
+    "platform": "Meta",
+    "aspect_ratio": "9:16",
+    "parent_serial_number": "",
+    "total_versions": 2,
+    "editor_direction": "",
+    "product": "",
+    "generate_ai_vo": false,
+    "music": "Upbeat southern rock",
+    "production_link": "",
+    "reference": "",
+    "hooks": [
+      {"version": "V1", "copy": "", "text_overlay": "When the guys see you carve the brisket with this", "editor_note": ""},
+      {"version": "V2", "copy": "", "text_overlay": "Your neighbors are about to ask where you got this", "editor_note": ""}
+    ],
+    "body": [
+      {"line": 1, "script": "", "text_overlay": "Hand-forged. Razor sharp. Built for the pit.", "editor_note": ""},
+      {"line": 2, "script": "", "text_overlay": "Get yours at coolina.com", "editor_note": ""}
+    ],
+    "production": {},
+    "media_buyer": {}
+  },
+  "monday": {
+    "concept_name": "BBQ Enthusiast Test — Impress His Guests",
+    "owner_monday_id": 105298787,
+    "owner_name": "Lia Zucker",
+    "funnel": "BBQ",
+    "swimlane": "NEW",
+    "iteration_type": "New Video",
+    "format": "Music + text overlay",
+    "parent_serial": "Pnone",
+    "offer": "FreeBoardAndMystery",
+    "ad_copy": "Default"
+  }
+}

@@ -1,10 +1,9 @@
 # Emater creative brief skill (shared copy)
 
-Read-only copy of the `creative-brief-generation` skill from Emater's private hub, shared with Maor's Claude Code agent.
+Shared copy of Emater's company creative-brief rules, for outside bots that open Coolina creative tasks.
 
-- `creative-brief-generation/` - the skill. Start with its `SKILL.md`.
-- `MONDAY-TASK-OPENING.md` - how to open Coolina Monday tasks the same way Cole does.
+- `coolina-opener/` - **start here to open a Coolina task.** One command builds the brief and opens the Monday task exactly like Emater's agents. Read `coolina-opener/README.md`.
+- `creative-brief-generation/` - the company brief builder and the rules for each brief type. Start with its `SKILL.md`.
+- `MONDAY-TASK-OPENING.md` - older manual instructions, kept for reference. `coolina-opener` replaces them.
 
-Setup: `pip install openpyxl pytest`, then `python3 -m pytest creative-brief-generation/tests -q`.
-
-Henry keeps this copy in sync with the hub. Don't edit it here; ask Henry or Liel for changes.
+Henry syncs `creative-brief-generation/` with Emater's main repo every day. Don't edit this repo; ask Henry or Liel for changes.
