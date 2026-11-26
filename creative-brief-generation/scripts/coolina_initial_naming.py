@@ -41,7 +41,9 @@ FUNNEL_LABELS = {'2NEW':'2NEW','BIS':'BIS','BACK IN STOCK':'BIS','BBQ':'BBQ',
                  'NEW ARRIVALS':'New Arrivals','UNIQUE':'Unique',
                  # Added 2026-11-16 (Liel): live board labels, used by Cole for Liza's tasks.
                  'GIFTING':'Gifting','EVOLVE':'EVOLVE'}
-AGENTS = ('Ivan', 'Isaac', 'Camilla', 'Sam', 'Gina', 'Cole')
+# 'Lia Grok' = Lia Zucker's Grok bot, an outside task opener (Liel 2026-11-26). Multi-word labels
+# are compacted in the name: 'Lia Grok' -> 'LiaGrokAgent'.
+AGENTS = ('Ivan', 'Isaac', 'Camilla', 'Sam', 'Gina', 'Cole', 'Lia Grok')
 # Proven-hooks auto route (Liel 2026-11-16, Slack C0C8BSHAF4J/1794597975.617809): weekly AI hook
 # swaps/stacks open with Owner = Max Openclaw. That owner is accepted ONLY on tasks carrying the
 # ProvenHooks tag (opening: also the route marker set by Cole's publisher). Everywhere else the bot
@@ -64,7 +66,7 @@ def agent_token(label):
     match = AGENT_LABEL_RE.fullmatch(str(label or '').strip())
     if not match:
         raise ValueError('AI Agent must be an approved business agent, never a technical identity')
-    return match.group(1) + 'Agent' + (match.group(2) or '')
+    return compact(match.group(1)) + 'Agent' + (match.group(2) or '')
 
 def compact(value):
     return re.sub(r'[^\w]', '', str(value)).replace('_', '')
@@ -263,7 +265,7 @@ def review_name(item):
     ai=''
     agent=AGENT_LABEL_RE.fullmatch(single('item_ai_agent_label_1'))
     if agent:
-        ai=agent.group(1)+'Agent'+(agent.group(2) or '')
+        ai=compact(agent.group(1))+'Agent'+(agent.group(2) or '')
     elif values('item_ai_agent_label_1'):
         missing.append('AI Agent (not a recognized agent, left out of the name)')
     editors=values('item_editor_designer_names_1')
